@@ -16,7 +16,7 @@
         #list tr:hover:not(:first-child) {background-color: yellow;}
 
         .form-table input { width: 260px;}
-        .message          { margin-top: 15px; font-weight: 600;}
+        .message          { margin-top: 15px; font-weight: 600; }
         .error            { color: #b00020; }
         .success          { color: #0a6b2b; }
     </style>
@@ -56,7 +56,7 @@
             </tr>
         </table>
     </form>
-    <div id="massage" class=""> 비밀번호를 수정하지 않을 경우 공백으로 두세요.</div>
+    <div id="massage" class="message"> 비밀번호를 수정하지 않을 경우 공백으로 두세요.</div>
     <hr>
     <div>아이디 <input type="text" id="text" placeholder="검색어" />
     <button id="btnOk" class="btn btn-secondary btn-sm">검색</button>
@@ -70,7 +70,63 @@
  <script>
      const API_URL = '/api/users'; // 기본  API 주소
 
+    // display header 문자열
+     function table_header() {
+         return `
+            <tr>
+            <th>아이디</th>
+            <th>이름</th>
+            <th>이메일</th>
+            <th>가입일</th>
+            <th>삭제</th>
+            </tr>
+         `;
+     }
 
+     // 조회할 datalist 출력
+     function datalist_display( datalist ) {
+         let html = '<table id="list" class="table table-striped">';
+         html += table_header();
+
+         datalist.forEach( user => {
+             const userid = user.userid;
+             const username = user.username;
+             const email = user.email;
+             const indate = user.indate;
+
+
+             let tr = `
+                <tr>
+                  <td>${userid}</td>
+                  <td>${username}</td>
+                  <td>${email}</td>
+                  <td>${indate}</td>
+                  <td><button type="button" class="btnDel">🗑</button></td>
+                </tr>
+             `
+         })
+
+         html += '</table>';
+
+         const div1El = document.getElementById('div1');
+         div1El.innerHTML = html;
+
+         // data 조회
+         // GET http://localhost:8080/api/users
+         // GET http://localhost:8080/api/users?keyword=user
+         async function getUsers() {
+             const keywordEl = document.getElementById('text');
+             const keyword = keywordEl.value.trim();
+             const url = (keyword)
+                 ? `${API_URL}?keyword=${encodeURIComponent(keyword)}`
+                 : API_URL;
+
+             const datalist = requestJson(url);
+             datalist_display( datalist );
+
+         }
+
+     }
  </script>
 </body>
 </html>
