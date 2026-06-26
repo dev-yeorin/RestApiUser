@@ -23,40 +23,40 @@
     </style>
 </head>
 <body>
-  <main>
+<main>
     <h2>회원 REST API Test</h2>
     <form id="form1">
-     <table  class="form-table">
-      <tr>
-          <td>아이디</td>
-          <td><input type="text" id="userid" required></td>
-      </tr>
-      <tr>
-          <td>암호</td>
-          <td><input type="password" id="passwd" required ></td>
-      </tr>
-      <tr>
-          <td>이름</td>
-          <td><input type="text" id="username" required ></td>
-      </tr>
-      <tr>
-          <td>이메일</td>
-          <td><input type="email" id="email" ></td>
-      </tr>
-      <tr>
-          <td>가입일</td>
-          <td><input type="text" id="indate" readonly ></td>
-      </tr>
-      <tr>
-          <td colspan="2">
-            <a id="btnInsert" href="#" class="btn btn-primary btn-sm">추가</a>
-            <a id="btnUpdate" href="#" class="btn btn-warning btn-sm">수정</a>
-            <a id="btnDelete" href="#" class="btn btn-danger  btn-sm">삭제</a>
-            <input type="button" id="btnClear"  class="btn btn-info  btn-sm" value="Clear" />
-          </td>
-      </tr>
+        <table  class="form-table">
+            <tr>
+                <td>아이디</td>
+                <td><input type="text" id="userid" required></td>
+            </tr>
+            <tr>
+                <td>암호</td>
+                <td><input type="password" id="passwd" required ></td>
+            </tr>
+            <tr>
+                <td>이름</td>
+                <td><input type="text" id="username" required ></td>
+            </tr>
+            <tr>
+                <td>이메일</td>
+                <td><input type="email" id="email" ></td>
+            </tr>
+            <tr>
+                <td>가입일</td>
+                <td><input type="text" id="indate" readonly ></td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <a id="btnInsert" href="#" class="btn btn-primary btn-sm">추가</a>
+                    <a id="btnUpdate" href="#" class="btn btn-warning btn-sm">수정</a>
+                    <a id="btnDelete" href="#" class="btn btn-danger  btn-sm">삭제</a>
+                    <input type="button" id="btnClear"  class="btn btn-info  btn-sm" value="Clear" />
+                </td>
+            </tr>
 
-     </table>
+        </table>
     </form>
 
     <div id="message" class="message"></div>
@@ -69,10 +69,10 @@
 
     <div id="div1"></div>
 
-  </main>
+</main>
 
-  <!-- -------------------------------------------------------- -->
-  <script>
+<!-- -------------------------------------------------------- -->
+<script>
     const  API_URL = '/api/users';   // 기본 api 주소
 
     // #div1 table ui 시작 -------------------------
@@ -166,7 +166,7 @@
         }
         await requestJson(API_URL, options);
         text_clear()
-        await loadUsers();
+        await getUsers();
     }
 
     // requestJson()
@@ -221,8 +221,8 @@
             // let tds = event.target.parentElement.children;
             let tds = event.target.closest('tr').children;
             console.dir(tds);
-              // HTMLCollection(5) [td, td, td, td, td]
-              //  tds.forEach() 로 출력안됨 : tag collection
+            // HTMLCollection(5) [td, td, td, td, td]
+            //  tds.forEach() 로 출력안됨 : tag collection
 
             const useridEl = document.getElementById('userid');
             const passwdEl = document.getElementById('passwd');
@@ -231,14 +231,14 @@
             const indateEl = document.getElementById('indate');
 
             Array.from(tds).forEach( (td, i) => { // 작동한다
-               if( td.tagName != "TD" ) return;
-               console.dir( td )
-               switch ( i ) {
-                   case 0: useridEl.value   = td.innerHTML; break;
-                   case 1: usernameEl.value = td.innerHTML; break;
-                   case 2: emailEl.value    = td.innerHTML; break;
-                   case 3: indateEl.value   = td.innerHTML; break;
-               }
+                if( td.tagName != "TD" ) return;
+                console.dir( td )
+                switch ( i ) {
+                    case 0: useridEl.value   = td.innerHTML; break;
+                    case 1: usernameEl.value = td.innerHTML; break;
+                    case 2: emailEl.value    = td.innerHTML; break;
+                    case 3: indateEl.value   = td.innerHTML; break;
+                }
             })
 
         })
@@ -248,7 +248,7 @@
         // 추가버튼 클릭
         const  btnInserEl = document.getElementById('btnInsert');
         btnInserEl.addEventListener('click', async function( event ) {
-           // alert('추가')
+            // alert('추가')
             console.log( event );
             event.preventDefault(); // 기본이벤트 취소
             event.stopPropagation();
@@ -283,11 +283,10 @@
         })
     }
 
-  </script>
+</script>
 
 </body>
 </html>
-
 
 
 
