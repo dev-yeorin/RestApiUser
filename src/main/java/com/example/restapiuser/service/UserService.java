@@ -2,6 +2,7 @@ package com.example.restapiuser.service;
 
 import com.example.restapiuser.dto.UserCreateRequest;
 import com.example.restapiuser.dto.UserResponse;
+import com.example.restapiuser.dto.UserUpdateRequest;
 import com.example.restapiuser.entity.UserEntity;
 import com.example.restapiuser.exception.ApiException;
 import com.example.restapiuser.repository.UserRepository;
@@ -35,11 +36,12 @@ public class UserService {
         }
         return users.stream()
                 .map(UserResponse::from)
-                    // 모든 요소에 함수를 적용해서 새로운 stream 을 만들어라(.map())
+                // 모든 요소에 함수를 적용해서 새로운 stream 을 만들어라(.map())
                 .toList();
-                    //  list.stream() -> ArrayList 로 변경
+        //  list.stream() -> ArrayList 로 변경
     }
 
+    // 회원 추가
     @Transactional
     public UserResponse createUser(@Valid UserCreateRequest request) {
         if( userRepository.existsById( request.userid() ) ) {
@@ -57,8 +59,33 @@ public class UserService {
         UserEntity savedUser = userRepository.save(user);
         return  UserResponse.from(savedUser);
     }
-}
 
+    // 회원삭제
+    @Transactional
+    public void deleteUser(String userid) {
+        UserEntity  user  =  getUserEntity(userid);
+        userRepository.delete(user);   // 삭제
+    }
+
+    // userid 로 검색
+    private UserEntity getUserEntity(String userid) {
+        return userRepository.findById(userid)
+                .orElseThrow( () -> new ApiException(HttpStatus.NOT_FOUND,
+                        "사용자를 찾을 수 없습니다 " + userid ));
+    }
+
+    // 회원정보 수정
+    @Transactional
+    public UserResponse updateUser(String userid, @Valid UserUpdateRequest request) {
+        UserEntity  user  =  getUserEntity(userid);
+        if( request.passwd() != null && !request.passwd().isBlank() ) {
+            user.setPasswd(request.passwd());
+        }
+        user.setUsername(request.username());
+        user.setEmail(request.email());
+        return  UserResponse.from(userRepository.save(user));
+    }
+}
 
 
 
